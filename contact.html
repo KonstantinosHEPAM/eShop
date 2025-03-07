@@ -28,6 +28,51 @@
     })(window,document,'script','dataLayer','GTM-KVQ33G32');</script>
     <!-- End Google Tag Manager -->
 
+    <!-- Client ID Script -->
+    <script>
+        // Function to set Client ID in a cookie
+        function setClientIDCookie(clientId) {
+            var now = new Date();
+            var time = now.getTime();
+            var expireTime = time + 1000 * 36000; // Cookie expires in 10 hours
+            now.setTime(expireTime);
+            document.cookie = "client_id=" + clientId + ";expires=" + now.toGMTString() + ";path=/";
+        }
+
+        // Function to get Client ID from cookie
+        function getClientIDFromCookie() {
+            var name = "client_id=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+        // Check for existing client ID in cookie and set in dataLayer
+        window.onload = function() {
+            var clientId = getClientIDFromCookie();
+            if (!clientId) {
+                // If no client ID found, generate a new one and set it in the cookie
+                ga(function(tracker) {
+                    clientId = tracker.get('clientId');
+                    setClientIDCookie(clientId);
+                    dataLayer.push({'event': 'clientIDAvailable', 'client_id': clientId});
+                });
+            } else {
+                // If client ID found in cookie, push it to dataLayer
+                dataLayer.push({'event': 'clientIDAvailable', 'client_id': clientId});
+            }
+        }
+    </script>
+
     <!--
     
 TemplateMo 559 Zay Shop
@@ -49,7 +94,7 @@ https://templatemo.com/tm-559-zay-shop
             <div class="w-100 d-flex justify-content-between">
                 <div>
                     <i class="fa fa-envelope mx-2"></i>
-                    <a class="navbar-sm-brand text-light text-decoration-none" href="konstantinoshepam@gmail.com">email me now!</a>
+                    <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:konstantinoshepam@gmail.com">email me now!</a>
                     <i class="fa fa-phone mx-2"></i>
                     <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-020-0340</a>
                 </div>
@@ -277,60 +322,4 @@ https://templatemo.com/tm-559-zay-shop
                     <label class="sr-only" for="subscribeEmail">Email address</label>
                     <div class="input-group mb-2">
                         <input type="text" class="form-control bg-dark border-light" id="subscribeEmail" placeholder="Email address">
-                        <div class="input-group-text btn-success text-light">Subscribe</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="w-100 bg-black py-3">
-            <div class="container">
-                <div class="row pt-2">
-                    <div class="col-12">
-                        <p class="text-left text-light">
-                            Copyright &copy; 2021 Company Name 
-                            | Designed by <a rel="sponsored" href="https://templatemo.com" target="_blank">TemplateMo</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </footer>
-    <!-- End Footer -->
-
-    <!-- Start Script -->
-    <script src="assets/js/jquery-1.11.0.min.js"></script>
-    <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/templatemo.js"></script>
-    <script src="assets/js/custom.js"></script>
-    <!-- End Script -->
-
-    <!-- Client ID Script -->
-    <script>
-        // Function to set Client ID in a cookie
-        function setClientIDCookie(clientId) {
-            var now = new Date();
-            var time = now.getTime();
-            var expireTime = time + 1000 * 36000; // Cookie expires in 10 hours
-            now.setTime(expireTime);
-            document.cookie = "client_id=" + clientId + ";expires=" + now.toGMTString() + ";path=/";
-        }
-
-        // Function to get Client ID from cookie
-        function getClientIDFromCookie() {
-            var name = "client_id=";
-            var decodedCookie = decodeURIComponent(document.cookie);
-            var ca = decodedCookie.split(';');
-            for (var i = 0; i < ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0) == ' ') {
-                    c = c.substring(1);
-                }
-                if (c.indexOf(name) == 0) {
-                    return c.substring(name.length, c.length);
-                }
-            }
-            return "";
-        }
+                        <div class="input-group-text btn-success text-light">Subscribe</div
