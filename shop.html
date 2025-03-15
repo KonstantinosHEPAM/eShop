@@ -768,48 +768,55 @@ https://templatemo.com/tm-559-zay-shop
     <script src="assets/js/templatemo.js"></script>
     <script src="assets/js/custom.js"></script>
     <!-- End Script -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM fully loaded and parsed'); // Debugging log
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM fully loaded and parsed'); // Debugging log
 
-            // Function to get product details from the DOM
-            function getProductDetails() {
-                var products = document.querySelectorAll('.product-wap');
-                var items = [];
-                
-                products.forEach(function(product, index) {
-                    var titleElement = product.querySelector('.card-body a.h3.text-decoration-none');
-                    var priceElement = product.querySelector('.card-body p.text-center.mb-0');
-                    var sizesElement = product.querySelector('.card-body ul.w-100.list-unstyled.d-flex.justify-content-between.mb-0 li');
+    // Function to generate SKU from title
+    function generateSKU(title) {
+        return title.replace(/\s+/g, '').toUpperCase();
+    }
 
-                    var title = titleElement ? titleElement.innerText.trim() : 'Unknown';
-                    var price = priceElement ? priceElement.innerText.trim().replace('$', '') : '0.00';
-                    var sizes = sizesElement ? sizesElement.innerText.trim() : 'Unknown';
+    // Function to get product details from the DOM
+    function getProductDetails() {
+        var products = document.querySelectorAll('.product-wap');
+        var items = [];
+        
+        products.forEach(function(product, index) {
+            var titleElement = product.querySelector('.card-body a.h3.text-decoration-none');
+            var priceElement = product.querySelector('.card-body p.text-center.mb-0');
+            var sizesElement = product.querySelector('.card-body ul.w-100.list-unstyled.d-flex.justify-content-between.mb-0 li');
 
-                    items.push({
-                        position: index + 1,
-                        name: title,
-                        price: parseFloat(price),
-                        sizes: sizes
-                    });
-                });
+            var title = titleElement ? titleElement.innerText.trim() : 'Unknown';
+            var price = priceElement ? priceElement.innerText.trim().replace('$', '') : '0.00';
+            var sizes = sizesElement ? sizesElement.innerText.trim() : 'Unknown';
+            var sku = generateSKU(title);
 
-                return items;
-            }
-
-            // Push the product details to the dataLayer
-            var productDetails = getProductDetails();
-            console.log('Product details:', productDetails); // Debugging log
-            dataLayer.push({
-                event: 'view_item_list_page', // Updated event name
-                ecommerce: {
-                    items: productDetails
-                }
+            items.push({
+                position: index + 1,
+                name: title,
+                price: parseFloat(price),
+                sizes: sizes,
+                sku: sku
             });
-            
-            console.log('Product details pushed to dataLayer'); // Debugging log
         });
-    </script>
+
+        return items;
+    }
+
+    // Push the product details to the dataLayer
+    var productDetails = getProductDetails();
+    console.log('Product details:', productDetails); // Debugging log
+    dataLayer.push({
+        event: 'view_item_list', // Updated event name
+        ecommerce: {
+            items: productDetails
+        }
+    });
+    
+    console.log('Product details pushed to dataLayer'); // Debugging log
+});
+</script>
 </body>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KVQ33G32"
