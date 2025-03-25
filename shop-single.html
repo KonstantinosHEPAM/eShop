@@ -797,6 +797,7 @@ https://templatemo.com/tm-559-zay-shop
     </script>
     <!-- End Slider Script -->
 <script>
+<script>
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM fully loaded and parsed'); // Debugging log
 
@@ -820,14 +821,12 @@ document.addEventListener('DOMContentLoaded', function() {
         var priceElement = product.querySelector('p.h3.py-2');
         var price = priceElement ? priceElement.innerText.trim().replace('$', '') : '0.00';
 
-        // Get product sizes
-        var sizesElements = product.querySelectorAll('.btn-size');
-        var sizes = Array.prototype.map.call(sizesElements, function(el) {
-            return el.innerText.trim();
-        }).join('/');
-
         // Generate SKU from title
         var sku = generateSKU(title);
+
+        // Example values, adjust as needed
+        var quantity = 3;
+        var value = parseFloat(price) * quantity;
 
         // Return product details
         return {
@@ -837,7 +836,7 @@ document.addEventListener('DOMContentLoaded', function() {
             coupon: "SUMMER_FUN",
             currency: "USD",
             discount: 0,
-            index: 0, // This might need to be dynamically set based on the context
+            index: 0,
             item_brand: "Brand Zay",
             item_category: "Category Zay",
             item_category2: "Category 2",
@@ -849,7 +848,8 @@ document.addEventListener('DOMContentLoaded', function() {
             item_variant: "Top Variant",
             location_id: "LocationId",
             price: parseFloat(price),
-            quantity: 3 // This might need to be dynamically set based on the context
+            quantity: quantity,
+            value: value
         };
     }
 
@@ -859,6 +859,8 @@ document.addEventListener('DOMContentLoaded', function() {
         dataLayer.push({
             event: 'view_item',
             ecommerce: {
+                currency: productDetails.currency,
+                value: productDetails.value,
                 items: [productDetails]
             }
         });
@@ -872,6 +874,8 @@ document.addEventListener('DOMContentLoaded', function() {
         dataLayer.push({
             event: 'add_to_wishlist',
             ecommerce: {
+                currency: productDetails.currency,
+                value: productDetails.value,
                 items: [productDetails]
             }
         });
@@ -884,6 +888,8 @@ document.addEventListener('DOMContentLoaded', function() {
         dataLayer.push({
             event: 'add_to_cart',
             ecommerce: {
+                currency: productDetails.currency,
+                value: productDetails.value,
                 items: [productDetails]
             }
         });
@@ -896,6 +902,9 @@ document.addEventListener('DOMContentLoaded', function() {
         dataLayer.push({
             event: 'begin_checkout',
             ecommerce: {
+                currency: productDetails.currency,
+                value: productDetails.value,
+                coupon: productDetails.coupon,
                 items: [productDetails]
             }
         });
@@ -908,6 +917,11 @@ document.addEventListener('DOMContentLoaded', function() {
         dataLayer.push({
             event: 'purchase',
             ecommerce: {
+                currency: productDetails.currency,
+                value: productDetails.value,
+                tax: 0,
+                shipping: 0,
+                coupon: productDetails.coupon,
                 items: [productDetails]
             }
         });
