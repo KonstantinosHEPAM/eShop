@@ -833,6 +833,66 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Product details pushed to dataLayer'); // Debugging log
 });
 </script>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM fully loaded and parsed'); // Debugging log
+
+    // Function to generate SKU from title
+    function generateSKU(title) {
+        return title.replace(/\s+/g, '').toUpperCase();
+    }
+
+    // Function to get product details from the clicked element
+    function getProductDetails(clickedElement) {
+        var product = clickedElement.closest('.product-wap');
+        var titleElement = product.querySelector('.card-body a.h3.text-decoration-none');
+        var priceElement = product.querySelector('.card-body p.text-center.mb-0');
+        var sizesElement = product.querySelector('.card-body ul.w-100.list-unstyled.d-flex.justify-content-between.mb-0 li');
+
+        var title = titleElement ? titleElement.innerText.trim() : 'Unknown';
+        var price = priceElement ? priceElement.innerText.trim().replace('$', '') : '0.00';
+        var sizes = sizesElement ? sizesElement.innerText.trim() : 'Unknown';
+        var sku = generateSKU(title);
+
+        return {
+            item_id: sku,
+            item_name: title,
+            affiliation: "Top Affiliation",
+            coupon: "SUMMER_FUN",
+            currency: "USD",
+            discount: 0,
+            index: 0, // This might need to be dynamically set based on the context
+            item_brand: "Brand Zay",
+            item_category: "Category Zay",
+            item_category2: "Category 2",
+            item_category3: "Category 3",
+            item_category4: "Category 4",
+            item_category5: "Category 5",
+            item_list_id: "top_products",
+            item_list_name: "Top Products",
+            item_variant: "Top Variant",
+            location_id: "LocationId",
+            price: parseFloat(price),
+            quantity: 3 // This might need to be dynamically set based on the context
+        };
+    }
+
+    // Add event listeners to product links
+    var productLinks = document.querySelectorAll('.product-wap a[href="shop-single.html"]');
+    productLinks.forEach(function(link) {
+        link.addEventListener('click', function(event) {
+            var productDetails = getProductDetails(event.target);
+            dataLayer.push({
+                event: 'select_item',
+                ecommerce: {
+                    items: [productDetails]
+                }
+            });
+            console.log('select_item event pushed to dataLayer'); // Debugging log
+        });
+    });
+});
+</script>
 </body>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KVQ33G32"
