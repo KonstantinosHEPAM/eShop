@@ -795,11 +795,24 @@ document.addEventListener('DOMContentLoaded', function() {
             items.push({
                 position: index + 1,
                 item_name: title,
+                item_id: sku,
                 price: parseFloat(price),
                 sizes: sizes,
-                item_id: sku,
                 item_list_id: "top_products",
-                item_list_name: "Top Products"
+                item_list_name: "Top Products",
+                affiliation: "Top Affiliation",
+                coupon: "SUMMER_FUN",
+                discount: 0,
+                index: index,
+                item_brand: "Brand Zay Shop",
+                item_category: "Category Zay",
+                item_category2: "Category 2",
+                item_category3: "Category 3",
+                item_category4: "Category 4",
+                item_category5: "Category 5",
+                item_variant: "Top Variant",
+                location_id: "LoactionId",
+                quantity: 3
             });
         });
 
@@ -810,7 +823,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var productDetails = getProductDetails();
     console.log('Product details:', productDetails); // Debugging log
     dataLayer.push({
-        event: 'view_item_list', // Updated event name
+        event: 'view_item_list',
         ecommerce: {
             items: productDetails
         }
