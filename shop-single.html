@@ -796,7 +796,7 @@ https://templatemo.com/tm-559-zay-shop
         });
     </script>
     <!-- End Slider Script -->
-    <script>
+<script>
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM fully loaded and parsed'); // Debugging log
 
@@ -851,6 +851,18 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
+    // Push view_item event to dataLayer on page load
+    var productDetails = getProductDetails();
+    if (productDetails) {
+        dataLayer.push({
+            event: 'view_item',
+            ecommerce: {
+                items: [productDetails]
+            }
+        });
+        console.log('view_item event pushed to dataLayer'); // Debugging log
+    }
+
     // Add event listeners to buttons
     document.querySelector('button[name="submit"][value="wishlist"]').addEventListener('click', function(event) {
         event.preventDefault();
@@ -901,7 +913,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-
 </body>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KVQ33G32"
