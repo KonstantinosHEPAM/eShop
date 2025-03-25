@@ -834,6 +834,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <script>
+<script>
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM fully loaded and parsed'); // Debugging log
 
@@ -854,7 +855,6 @@ document.addEventListener('DOMContentLoaded', function() {
         var sizes = sizesElement ? sizesElement.innerText.trim() : 'Unknown';
         var sku = generateSKU(title);
         var quantity = 3; // This might need to be dynamically set based on the context
-        var value = parseFloat(price) * quantity;
 
         return {
             item_id: sku,
@@ -875,8 +875,7 @@ document.addEventListener('DOMContentLoaded', function() {
             item_variant: "Top Variant",
             location_id: "LocationId",
             price: parseFloat(price),
-            quantity: quantity,
-            value: value
+            quantity: quantity
         };
     }
 
