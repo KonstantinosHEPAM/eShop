@@ -847,8 +847,14 @@ document.addEventListener('DOMContentLoaded', function() {
             item_variant: "Top Variant",
             location_id: "LocationId",
             price: parseFloat(price),
-            quantity: quantity,
+            quantity: quantity
         };
+    }
+
+    // Function to generate transaction ID
+    function generateTransactionId(sku) {
+        var timestamp = Math.floor(Date.now() / 1000); // Current timestamp in seconds
+        return sku + "_" + timestamp;
     }
 
     // Push view_item event to dataLayer on page load
@@ -912,9 +918,11 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('button[name="submit"][value="purchase"]').addEventListener('click', function(event) {
         event.preventDefault();
         var productDetails = getProductDetails();
+        var transactionId = generateTransactionId(productDetails.item_id);
         dataLayer.push({
             event: 'purchase',
             ecommerce: {
+                transaction_id: transactionId,
                 currency: productDetails.currency,
                 value: productDetails.value,
                 tax: 0,
@@ -923,7 +931,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 items: [productDetails]
             }
         });
-        console.log('purchase event pushed to dataLayer'); // Debugging log
+        console.log('purchase event pushed to dataLayer with transaction_id:', transactionId); // Debugging log
     });
 });
 </script>
