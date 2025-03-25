@@ -796,6 +796,111 @@ https://templatemo.com/tm-559-zay-shop
         });
     </script>
     <!-- End Slider Script -->
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM fully loaded and parsed'); // Debugging log
+
+    // Function to generate SKU from title
+    function generateSKU(title) {
+        return title.replace(/\s+/g, '').toUpperCase();
+    }
+
+    // Function to get product details from the DOM
+    function getProductDetails() {
+        var product = document.querySelector('.col-lg-7 .card-body');
+        if (!product) {
+            return null;
+        }
+
+        // Get product title
+        var titleElement = product.querySelector('h1.h2');
+        var title = titleElement ? titleElement.innerText.trim() : 'Unknown';
+
+        // Get product price
+        var priceElement = product.querySelector('p.h3.py-2');
+        var price = priceElement ? priceElement.innerText.trim().replace('$', '') : '0.00';
+
+        // Get product sizes
+        var sizesElements = product.querySelectorAll('.btn-size');
+        var sizes = Array.prototype.map.call(sizesElements, function(el) {
+            return el.innerText.trim();
+        }).join('/');
+
+        // Generate SKU from title
+        var sku = generateSKU(title);
+
+        // Return product details
+        return {
+            item_id: sku,
+            item_name: title,
+            affiliation: "Top Affiliation",
+            coupon: "SUMMER_FUN",
+            currency: "USD",
+            discount: 0,
+            index: 0, // This might need to be dynamically set based on the context
+            item_brand: "Brand Zay",
+            item_category: "Category Zay",
+            item_category2: "Category 2",
+            item_category3: "Category 3",
+            item_category4: "Category 4",
+            item_category5: "Category 5",
+            item_variant: "Top Variant",
+            location_id: "LocationId",
+            price: parseFloat(price),
+            quantity: 3 // This might need to be dynamically set based on the context
+        };
+    }
+
+    // Add event listeners to buttons
+    document.querySelector('button[name="submit"][value="wishlist"]').addEventListener('click', function(event) {
+        event.preventDefault();
+        var productDetails = getProductDetails();
+        dataLayer.push({
+            event: 'add_to_wishlist',
+            ecommerce: {
+                items: [productDetails]
+            }
+        });
+        console.log('add_to_wishlist event pushed to dataLayer'); // Debugging log
+    });
+
+    document.querySelector('button[name="submit"][value="addtocart"]').addEventListener('click', function(event) {
+        event.preventDefault();
+        var productDetails = getProductDetails();
+        dataLayer.push({
+            event: 'add_to_cart',
+            ecommerce: {
+                items: [productDetails]
+            }
+        });
+        console.log('add_to_cart event pushed to dataLayer'); // Debugging log
+    });
+
+    document.querySelector('button[name="submit"][value="checkout"]').addEventListener('click', function(event) {
+        event.preventDefault();
+        var productDetails = getProductDetails();
+        dataLayer.push({
+            event: 'begin_checkout',
+            ecommerce: {
+                items: [productDetails]
+            }
+        });
+        console.log('begin_checkout event pushed to dataLayer'); // Debugging log
+    });
+
+    document.querySelector('button[name="submit"][value="purchase"]').addEventListener('click', function(event) {
+        event.preventDefault();
+        var productDetails = getProductDetails();
+        dataLayer.push({
+            event: 'purchase',
+            ecommerce: {
+                items: [productDetails]
+            }
+        });
+        console.log('purchase event pushed to dataLayer'); // Debugging log
+    });
+});
+</script>
 
 </body>
     <!-- Google Tag Manager (noscript) -->
