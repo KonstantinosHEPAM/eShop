@@ -41,6 +41,25 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-KVQ33G32');</script>
     <!-- End Google Tag Manager -->
+
+        <!-- Stape Tracking Script -->
+    <script>
+        (function() {
+            var stapeScript = document.createElement('script');
+            stapeScript.async = true;
+            stapeScript.src = 'https://app.eu.stape.io/track.js';
+            stapeScript.onload = function() {
+                window.stape = window.stape || [];
+                stape.push({
+                    event: 'stape.init',
+                    containerId: 'GTM-N4GX42ND', // Replace with your Stape container ID
+                    endpoint: 'https://konstantinoshepam.github.io' // Replace with your endpoint if needed
+                });
+            };
+            document.head.appendChild(stapeScript);
+        })();
+    </script>
+    <!-- End Stape Tracking Script -->
 </head>
 
 <body>
